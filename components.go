@@ -19,9 +19,9 @@ func (i *Components) UnmarshalJSON(data []byte) error {
 }
 
 type ComponentsObject struct {
-	Schemas    map[string]*Schema    `json:"schemas,omitempty"`
-	Responses  map[string]*Response  `json:"responses,omitempty"`
-	Parameters map[string]*Parameter `json:"parameters,omitempty"`
+	Schemas       map[string]*Schema      `json:"schemas,omitempty"`
+	Responses     map[string]*Response    `json:"responses,omitempty"`
+	Parameters    map[string]*Parameter   `json:"parameters,omitempty"`
 	WithExamples
 	RequestBodies map[string]*RequestBody `json:"requestBodies,omitempty"`
 	WithHeaders
@@ -78,9 +78,7 @@ func (object *ComponentsObject) RefSchema(id string) *Schema {
 	if object.Schemas == nil || object.Schemas[id] == nil {
 		return nil
 	}
-	s := &Schema{}
-	s.Ref = object.RefString("schemas", id)
-	return s
+	return RefSchema(object.RefString("schemas", id))
 }
 
 func (object *ComponentsObject) RefResponse(id string) *Response {
