@@ -13,6 +13,14 @@ func NewSchema(tpe Type, fmt string) *Schema {
 	}
 }
 
+func RefSchema(ref string) *Schema {
+	return &Schema{
+		Reference: Reference{
+			Ref: ref,
+		},
+	}
+}
+
 func Integer() *Schema {
 	return NewSchema(TypeInteger, "int32")
 }
@@ -158,6 +166,19 @@ func (s Schema) WithValidation(validation *SchemaValidation) *Schema {
 	return &s
 }
 
+func (s *Schema) SetProperty(name string, propSchema *Schema, required bool) {
+	if s.Type != TypeObject {
+		return
+	}
+	if s.Properties == nil {
+		s.Properties = make(map[string]*Schema)
+	}
+	s.Properties[name] = propSchema
+	if required {
+		s.Required = append(s.Required, name)
+	}
+}
+
 func (s Schema) WithDesc(desc string) *Schema {
 	s.Description = desc
 	return &s
@@ -183,25 +204,25 @@ func (s *Schema) UnmarshalJSON(data []byte) error {
 
 type SchemaValidation struct {
 	// numbers
-	MultipleOf       int  `json:"multipleOf,omitempty"`
-	Maximum          int  `json:"maximum,omitempty"`
-	ExclusiveMaximum bool `json:"exclusiveMaximum,omitempty"`
-	Minimum          int  `json:"minimum,omitempty"`
-	ExclusiveMinimum bool `json:"exclusiveMinimum,omitempty"`
+	MultipleOf       float64 `json:"multipleOf,omitempty"`
+	Maximum          float64 `json:"maximum,omitempty"`
+	ExclusiveMaximum bool    `json:"exclusiveMaximum,omitempty"`
+	Minimum          float64 `json:"minimum,omitempty"`
+	ExclusiveMinimum bool    `json:"exclusiveMinimum,omitempty"`
 
 	// string
-	MaxLength int    `json:"maxLength,omitempty"`
-	MinLength int    `json:"minLength,omitempty"`
+	MaxLength int64  `json:"maxLength,omitempty"`
+	MinLength int64  `json:"minLength,omitempty"`
 	Pattern   string `json:"pattern,omitempty"`
 
 	// array
-	MaxItems    int  `json:"maxItems,omitempty"`
-	MinItems    int  `json:"minItems,omitempty"`
-	UniqueItems bool `json:"uniqueItems,omitempty"`
+	MaxItems    int64 `json:"maxItems,omitempty"`
+	MinItems    int64 `json:"minItems,omitempty"`
+	UniqueItems bool  `json:"uniqueItems,omitempty"`
 
 	// object
-	MaxProperties int      `json:"maxProperties,omitempty"`
-	MinProperties int      `json:"minProperties,omitempty"`
+	MaxProperties int64    `json:"maxProperties,omitempty"`
+	MinProperties int64    `json:"minProperties,omitempty"`
 	Required      []string `json:"required,omitempty"`
 
 	// any
