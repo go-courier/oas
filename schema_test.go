@@ -3,6 +3,7 @@ package oas
 import (
 	"regexp"
 	"testing"
+	"github.com/morlay/oas/ptr"
 )
 
 func TestSchema(t *testing.T) {
@@ -59,22 +60,22 @@ func TestSchema(t *testing.T) {
 	g.It("not", `{"not":{"type":"string"}}`, Not(String()))
 
 	validation := &SchemaValidation{
-		MultipleOf:       2,
-		Maximum:          10,
+		MultipleOf:       ptr.Float64(2),
+		Maximum:          ptr.Float64(10),
 		ExclusiveMaximum: true,
-		Minimum:          1,
+		Minimum:          ptr.Float64(1),
 		ExclusiveMinimum: true,
 
-		MaxLength: 10,
-		MinLength: 1,
+		MaxLength: ptr.Int64(10),
+		MinLength: ptr.Int64(0),
 		Pattern:   regexp.MustCompile("/+d/").String(),
 
-		MaxItems:    10,
-		MinItems:    1,
+		MaxItems:    ptr.Int64(10),
+		MinItems:    ptr.Int64(1),
 		UniqueItems: true,
 
-		MaxProperties: 10,
-		MinProperties: 1,
+		MaxProperties: ptr.Int64(10),
+		MinProperties: ptr.Int64(1),
 		Required:      []string{"key"},
 
 		Enum: []interface{}{"1", "2", "3"},
@@ -82,9 +83,10 @@ func TestSchema(t *testing.T) {
 
 	g.It(
 		"with string validation",
-		`{"type":"string","maxLength":10,"minLength":1,"pattern":"/+d/","enum":["1","2","3"]}`,
+		`{"type":"string","maxLength":10,"minLength":0,"pattern":"/+d/","enum":["1","2","3"]}`,
 		String().WithValidation(validation),
 	)
+
 	g.It(
 		"with integer validation",
 		`{"type":"integer","format":"int32","multipleOf":2,"maximum":10,"exclusiveMaximum":true,"minimum":1,"exclusiveMinimum":true,"enum":["1","2","3"]}`,
