@@ -1,10 +1,13 @@
 # OpenAPI Spec Builder
 
+[![GoDoc Widget](https://godoc.org/github.com/go-courier/oas?status.svg)](https://godoc.org/github.com/go-courier/oas)
+[![Build Status](https://travis-ci.org/go-courier/oas.svg?branch=master)](https://travis-ci.org/go-courier/oas)
+[![codecov](https://codecov.io/gh/go-courier/oas/branch/master/graph/badge.svg)](https://codecov.io/gh/go-courier/oas)
+[![Go Report Card](https://goreportcard.com/badge/github.com/go-courier/oas)](https://goreportcard.com/report/github.com/go-courier/oas)
+
+
 [OpenAPI Spec](https://swagger.io/specification) 3.0 builder for Golang
 
-[![Build Status](https://img.shields.io/travis/morlay/oas.svg?style=flat-square)](https://travis-ci.org/morlay/oas)
-[![Coverage](https://img.shields.io/coveralls/morlay/oas.svg?style=flat-square)](https://coveralls.io/r/morlay/oas)
-[![Go Report Card](https://goreportcard.com/badge/github.com/morlay/oas?style=flat-square)](https://goreportcard.com/report/github.com/morlay/oas)
 ## Usage
 
 ```bash
