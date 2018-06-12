@@ -3,7 +3,7 @@ package oas
 import (
 	"regexp"
 	"testing"
-	"github.com/morlay/oas/ptr"
+	"github.com/go-courier/ptr"
 )
 
 func TestSchema(t *testing.T) {
