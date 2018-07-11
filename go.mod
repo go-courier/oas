@@ -1,4 +1,4 @@
-module github.com/morlay/oas
+module github.com/go-courier/oas
 
 require (
 	github.com/davecgh/go-spew v1.1.0
