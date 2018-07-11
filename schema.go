@@ -13,12 +13,18 @@ func NewSchema(tpe Type, fmt string) *Schema {
 	}
 }
 
-func RefSchema(ref string) *Schema {
+func RefSchemaByRefer(refer Refer) *Schema {
 	return &Schema{
 		Reference: Reference{
-			Ref: ref,
+			Refer: refer,
 		},
 	}
+}
+
+func RefSchema(ref string) *Schema {
+	return RefSchemaByRefer(&StringRefer{
+		Ref: ref,
+	})
 }
 
 func Integer() *Schema {

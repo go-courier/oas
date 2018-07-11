@@ -3,6 +3,7 @@ package oas
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 )
 
 type Components struct {
@@ -19,9 +20,9 @@ func (i *Components) UnmarshalJSON(data []byte) error {
 }
 
 type ComponentsObject struct {
-	Schemas       map[string]*Schema      `json:"schemas,omitempty"`
-	Responses     map[string]*Response    `json:"responses,omitempty"`
-	Parameters    map[string]*Parameter   `json:"parameters,omitempty"`
+	Schemas    map[string]*Schema    `json:"schemas,omitempty"`
+	Responses  map[string]*Response  `json:"responses,omitempty"`
+	Parameters map[string]*Parameter `json:"parameters,omitempty"`
 	WithExamples
 	RequestBodies map[string]*RequestBody `json:"requestBodies,omitempty"`
 	WithHeaders
@@ -70,15 +71,11 @@ func (object *ComponentsObject) AddRequestBody(id string, e *RequestBody) {
 	object.RequestBodies[id] = e
 }
 
-func (object *ComponentsObject) RefString(group string, id string) string {
-	return fmt.Sprintf("#/components/%s/%s", group, id)
-}
-
 func (object *ComponentsObject) RefSchema(id string) *Schema {
 	if object.Schemas == nil || object.Schemas[id] == nil {
 		return nil
 	}
-	return RefSchema(object.RefString("schemas", id))
+	return RefSchemaByRefer(NewComponentRefer("schemas", id))
 }
 
 func (object *ComponentsObject) RefResponse(id string) *Response {
@@ -86,7 +83,7 @@ func (object *ComponentsObject) RefResponse(id string) *Response {
 		return nil
 	}
 	s := &Response{}
-	s.Ref = object.RefString("responses", id)
+	s.Refer = NewComponentRefer("responses", id)
 	return s
 }
 
@@ -95,7 +92,7 @@ func (object *ComponentsObject) RefParameter(id string) *Parameter {
 		return nil
 	}
 	s := &Parameter{}
-	s.Ref = object.RefString("parameters", id)
+	s.Refer = NewComponentRefer("parameters", id)
 	return s
 }
 
@@ -104,7 +101,7 @@ func (object *ComponentsObject) RefExample(id string) *Example {
 		return nil
 	}
 	s := &Example{}
-	s.Ref = object.RefString("examples", id)
+	s.Refer = NewComponentRefer("examples", id)
 	return s
 }
 
@@ -113,7 +110,7 @@ func (object *ComponentsObject) RefRequestBody(id string) *RequestBody {
 		return nil
 	}
 	s := &RequestBody{}
-	s.Ref = object.RefString("requestBodies", id)
+	s.Refer = NewComponentRefer("requestBodies", id)
 	return s
 }
 
@@ -122,7 +119,7 @@ func (object *ComponentsObject) RefHeader(id string) *Header {
 		return nil
 	}
 	s := &Header{}
-	s.Ref = object.RefString("headers", id)
+	s.Refer = NewComponentRefer("headers", id)
 	return s
 }
 
@@ -131,7 +128,7 @@ func (object *ComponentsObject) RefLink(id string) *Link {
 		return nil
 	}
 	s := &Link{}
-	s.Ref = object.RefString("links", id)
+	s.Refer = NewComponentRefer("links", id)
 	return s
 }
 
@@ -140,7 +137,7 @@ func (object *ComponentsObject) RefCallback(id string) *Callback {
 		return nil
 	}
 	s := &Callback{}
-	s.Ref = object.RefString("callbacks", id)
+	s.Refer = NewComponentRefer("callbacks", id)
 	return s
 }
 
@@ -160,21 +157,71 @@ func (object *ComponentsObject) RequireSecurity(id string, scopes ...string) Sec
 }
 
 type Reference struct {
+	Refer Refer
+}
+
+type Refer interface {
+	RefString() string
+}
+
+func NewComponentRefer(group string, id string) *ComponentRefer {
+	return &ComponentRefer{
+		Group: group,
+		ID:    id,
+	}
+}
+
+func ParseComponentRefer(ref string) *ComponentRefer {
+	if strings.HasPrefix(ref, "#/components") {
+		parts := strings.Split(ref, "/")
+		if len(parts) == 4 {
+			return &ComponentRefer{
+				Group: parts[2],
+				ID:    parts[3],
+			}
+		}
+	}
+	return nil
+}
+
+type ComponentRefer struct {
+	Group string
+	ID    string
+}
+
+func (ref ComponentRefer) RefString() string {
+	return fmt.Sprintf("#/components/%s/%s", ref.Group, ref.ID)
+}
+
+type StringRefer struct {
 	Ref string `json:"$ref,omitempty"`
 }
 
+func (ref StringRefer) RefString() string {
+	return ref.Ref
+}
+
 func (ref Reference) MarshalJSONRefFirst(values ...interface{}) ([]byte, error) {
-	if ref.Ref != "" {
-		return json.Marshal(ref)
+	if ref.Refer != nil {
+		return json.Marshal(&StringRefer{
+			Ref: ref.Refer.RefString(),
+		})
 	}
 	return flattenMarshalJSON(values...)
 }
 
 func (ref *Reference) UnmarshalJSONRefFirst(data []byte, values ...interface{}) error {
-	if err := json.Unmarshal(data, &ref); err != nil {
+	r := &StringRefer{}
+	if err := json.Unmarshal(data, r); err != nil {
 		return err
 	}
-	if ref.Ref != "" {
+	if r.Ref != "" {
+		componentRefer := ParseComponentRefer(r.Ref)
+		if componentRefer != nil {
+			ref.Refer = componentRefer
+			return nil
+		}
+		ref.Refer = r
 		return nil
 	}
 	return flattenUnmarshalJSON(data, values...)

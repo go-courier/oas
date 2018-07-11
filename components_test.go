@@ -1,8 +1,9 @@
 package oas
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestComponents(t *testing.T) {
