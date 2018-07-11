@@ -3,6 +3,7 @@ package oas
 import (
 	"regexp"
 	"testing"
+
 	"github.com/go-courier/ptr"
 )
 

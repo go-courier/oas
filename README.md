@@ -6,14 +6,11 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/go-courier/oas)](https://goreportcard.com/report/github.com/go-courier/oas)
 
 
-[OpenAPI Spec](https://swagger.io/specification) 3.0 builder for Golang
+[OpenAPI Spec](https://swagger.io/specification) 3.0.1 builder for Golang
 
 ## Usage
 
 ```bash
-go get github.com/morlay/oas
+go get github.com/go-courier/oas
 ```
-
-And please check testing files for usages.
-
 

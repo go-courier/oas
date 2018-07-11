@@ -2,11 +2,11 @@ package oas
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
-	"testing"
 )
 
-func Test(t *testing.T) {
+func ExampleOpenAPI() {
 	openapi := NewOpenAPI()
 
 	openapi.Version = "1.0.0"
@@ -89,10 +89,154 @@ func Test(t *testing.T) {
 		openapi.AddOperation(POST, "/pets", op)
 	}
 
-	group := NewCaseGroup("")
-	group.It("all", `{"openapi":"3.0.0","info":{"title":"Swagger Petstore","license":{"name":"MIT"},"version":"1.0.0"},"paths":{"/pets":{"get":{"tags":["pets"],"summary":"List all pets","operationId":"listPets","parameters":[{"name":"limit","in":"query","description":"How many items to return at one time (max 100)","schema":{"type":"integer","format":"int32"}}],"responses":{"200":{"description":"An paged array of pets","headers":{"x-next":{"schema":{"type":"string","description":"A link to the next page of responses"}}},"content":{"application/json":{"schema":{"$ref":"#/components/schemas/Pets"}}}},"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"post":{"tags":["pets"],"summary":"Create a pet","operationId":"createPets","responses":{"204":{"description":"Null response"},"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}}}},"servers":[{"url":"http://petstore.swagger.io/v1"}],"tags":[{"name":"pets"}],"components":{"schemas":{"Error":{"type":"object","properties":{"code":{"type":"integer","format":"int32"},"message":{"type":"string"}},"required":["code","message"]},"Pet":{"type":"object","properties":{"id":{"type":"integer","format":"int64"},"name":{"type":"string"},"tag":{"type":"string"}},"required":["id","name"]},"Pets":{"type":"array","items":{"$ref":"#/components/schemas/Pet"}}},"securitySchemes":{"token":{"type":"http","scheme":"bearer","bearerFormat":"JWT"}}}}`, openapi)
-	group.Run(t)
-
-	data, _ := json.MarshalIndent(openapi, "", "  ")
-	t.Log(string(data))
+	data, _ := json.MarshalIndent(openapi, "\t", "\t")
+	fmt.Println(string(data))
+	/* Output:
+	{
+		"openapi": "3.0.1",
+		"info": {
+			"title": "Swagger Petstore",
+			"license": {
+				"name": "MIT"
+			},
+			"version": "1.0.0"
+		},
+		"paths": {
+			"/pets": {
+				"get": {
+					"tags": [
+						"pets"
+					],
+					"summary": "List all pets",
+					"operationId": "listPets",
+					"parameters": [
+						{
+							"name": "limit",
+							"in": "query",
+							"description": "How many items to return at one time (max 100)",
+							"schema": {
+								"type": "integer",
+								"format": "int32"
+							}
+						}
+					],
+					"responses": {
+						"200": {
+							"description": "An paged array of pets",
+							"headers": {
+								"x-next": {
+									"schema": {
+										"type": "string",
+										"description": "A link to the next page of responses"
+									}
+								}
+							},
+							"content": {
+								"application/json": {
+									"schema": {
+										"$ref": "#/components/schemas/Pets"
+									}
+								}
+							}
+						},
+						"default": {
+							"description": "unexpected error",
+							"content": {
+								"application/json": {
+									"schema": {
+										"$ref": "#/components/schemas/Error"
+									}
+								}
+							}
+						}
+					}
+				},
+				"post": {
+					"tags": [
+						"pets"
+					],
+					"summary": "Create a pet",
+					"operationId": "createPets",
+					"responses": {
+						"204": {
+							"description": "Null response"
+						},
+						"default": {
+							"description": "unexpected error",
+							"content": {
+								"application/json": {
+									"schema": {
+										"$ref": "#/components/schemas/Error"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"servers": [
+			{
+				"url": "http://petstore.swagger.io/v1"
+			}
+		],
+		"tags": [
+			{
+				"name": "pets"
+			}
+		],
+		"components": {
+			"schemas": {
+				"Error": {
+					"type": "object",
+					"properties": {
+						"code": {
+							"type": "integer",
+							"format": "int32"
+						},
+						"message": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"code",
+						"message"
+					]
+				},
+				"Pet": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "integer",
+							"format": "int64"
+						},
+						"name": {
+							"type": "string"
+						},
+						"tag": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"id",
+						"name"
+					]
+				},
+				"Pets": {
+					"type": "array",
+					"items": {
+						"$ref": "#/components/schemas/Pet"
+					}
+				}
+			},
+			"securitySchemes": {
+				"token": {
+					"type": "http",
+					"scheme": "bearer",
+					"bearerFormat": "JWT"
+				}
+			}
+		}
+	}
+	*/
 }
