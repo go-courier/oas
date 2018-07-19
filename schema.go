@@ -144,7 +144,7 @@ type Schema struct {
 	SpecExtensions
 }
 
-func (s Schema) WithValidation(validation *SchemaValidation, zeroValueFields ...string) *Schema {
+func (s Schema) WithValidation(validation *SchemaValidation) *Schema {
 	s.Enum = validation.Enum
 
 	switch s.Type {
@@ -208,10 +208,6 @@ func (s *Schema) UnmarshalJSON(data []byte) error {
 	return s.UnmarshalJSONRefFirst(data, &s.SchemaObject, &s.SpecExtensions)
 }
 
-func Int64(v int64) *int64 {
-	return &v
-}
-
 type SchemaValidation struct {
 	// numbers
 	MultipleOf       *float64 `json:"multipleOf,omitempty"`
@@ -221,18 +217,18 @@ type SchemaValidation struct {
 	ExclusiveMinimum bool     `json:"exclusiveMinimum,omitempty"`
 
 	// string
-	MaxLength *int64 `json:"maxLength,omitempty"`
-	MinLength *int64 `json:"minLength,omitempty"`
-	Pattern   string `json:"pattern,omitempty"`
+	MaxLength *uint64 `json:"maxLength,omitempty"`
+	MinLength *uint64 `json:"minLength,omitempty"`
+	Pattern   string  `json:"pattern,omitempty"`
 
 	// array
-	MaxItems    *int64 `json:"maxItems,omitempty"`
-	MinItems    *int64 `json:"minItems,omitempty"`
-	UniqueItems bool   `json:"uniqueItems,omitempty"`
+	MaxItems    *uint64 `json:"maxItems,omitempty"`
+	MinItems    *uint64 `json:"minItems,omitempty"`
+	UniqueItems bool    `json:"uniqueItems,omitempty"`
 
 	// object
-	MaxProperties *int64   `json:"maxProperties,omitempty"`
-	MinProperties *int64   `json:"minProperties,omitempty"`
+	MaxProperties *uint64  `json:"maxProperties,omitempty"`
+	MinProperties *uint64  `json:"minProperties,omitempty"`
 	Required      []string `json:"required,omitempty"`
 
 	// any

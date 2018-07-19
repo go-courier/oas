@@ -67,16 +67,16 @@ func TestSchema(t *testing.T) {
 		Minimum:          ptr.Float64(1),
 		ExclusiveMinimum: true,
 
-		MaxLength: ptr.Int64(10),
-		MinLength: ptr.Int64(0),
+		MaxLength: ptr.Uint64(10),
+		MinLength: ptr.Uint64(0),
 		Pattern:   regexp.MustCompile("/+d/").String(),
 
-		MaxItems:    ptr.Int64(10),
-		MinItems:    ptr.Int64(1),
+		MaxItems:    ptr.Uint64(10),
+		MinItems:    ptr.Uint64(1),
 		UniqueItems: true,
 
-		MaxProperties: ptr.Int64(10),
-		MinProperties: ptr.Int64(1),
+		MaxProperties: ptr.Uint64(10),
+		MinProperties: ptr.Uint64(1),
 		Required:      []string{"key"},
 
 		Enum: []interface{}{"1", "2", "3"},
