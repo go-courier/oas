@@ -43,6 +43,11 @@ func TestSchema(t *testing.T) {
 		MapOf(String()),
 	)
 
+	g.It("object with additional and pror",
+		`{"type":"object","additionalProperties":{"type":"string"},"propertyNames":{"type":"string"}}`,
+		KeyValueOf(String(), String()),
+	)
+
 	g.It("anyOf", `{"anyOf":[{"type":"string"},{"type":"boolean"}]}`, AnyOf(
 		String(),
 		Boolean(),

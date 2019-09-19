@@ -95,6 +95,10 @@ func ObjectOf(props Props, required ...string) *Schema {
 }
 
 func MapOf(s *Schema) *Schema {
+	return KeyValueOf(nil, s)
+}
+
+func KeyValueOf(k *Schema, s *Schema) *Schema {
 	return &Schema{
 		SchemaObject: SchemaObject{
 			Type: TypeObject,
@@ -102,6 +106,7 @@ func MapOf(s *Schema) *Schema {
 				Allows: true,
 				Schema: s,
 			},
+			PropertyNames: k,
 		},
 	}
 }
@@ -244,6 +249,8 @@ type SchemaObject struct {
 	Items                *Schema            `json:"items,omitempty"`
 	Properties           map[string]*Schema `json:"properties,omitempty"`
 	AdditionalProperties *SchemaOrBool      `json:"additionalProperties,omitempty"`
+	PropertyNames        *Schema            `json:"propertyNames,omitempty"`
+
 	SchemaValidation
 
 	AllOf []*Schema `json:"allOf,omitempty"`
