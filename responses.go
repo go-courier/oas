@@ -92,7 +92,7 @@ func (r *Response) UnmarshalJSON(data []byte) error {
 }
 
 type ResponseObject struct {
-	Description string `json:"description,omitempty"`
+	Description string `json:"description"`
 	WithHeaders
 	WithContent
 	WithLinks
