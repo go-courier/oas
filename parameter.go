@@ -193,9 +193,9 @@ type Position string
 
 const (
 	PositionQuery  Position = "query"
-	PositionPath            = "path"
-	PositionHeader          = "header"
-	PositionCookie          = "cookie"
+	PositionPath   Position = "path"
+	PositionHeader Position = "header"
+	PositionCookie Position = "cookie"
 )
 
 type ParameterStyle string
@@ -204,15 +204,15 @@ const (
 	// https://tools.ietf.org/html/rfc6570#section-3.2.7
 	ParameterStyleMatrix ParameterStyle = "matrix"
 	// https://tools.ietf.org/html/rfc6570#section-3.2.5
-	ParameterStyleLabel = "label"
+	ParameterStyleLabel ParameterStyle = "label"
 	// https://tools.ietf.org/html/rfc6570#section-3.2.8
-	ParameterStyleForm = "form"
+	ParameterStyleForm ParameterStyle = "form"
 	// for array, csv https://tools.ietf.org/html/rfc6570#section-3.2.2
-	ParameterStyleSimple = "simple"
+	ParameterStyleSimple ParameterStyle = "simple"
 	// for array, ssv
-	ParameterStyleSpaceDelimited = "spaceDelimited"
+	ParameterStyleSpaceDelimited ParameterStyle = "spaceDelimited"
 	// for array, pipes
-	ParameterStylePipeDelimited = "pipeDelimited"
+	ParameterStylePipeDelimited ParameterStyle = "pipeDelimited"
 	// for object
-	ParameterStyleDeepObject = "deepObject"
+	ParameterStyleDeepObject ParameterStyle = "deepObject"
 )

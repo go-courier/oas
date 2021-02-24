@@ -7,7 +7,7 @@ import (
 func TestResponse(t *testing.T) {
 	g := NewCaseGroup("Response")
 
-	g.It("empty", `{}`, Response{})
+	g.It("empty", `{"description":""}`, Response{})
 	g.It(
 		"with header and content and link",
 		`{"description":"desc","headers":{"x-next":{"schema":{"type":"string"}}},"content":{"application/json":{"schema":{"type":"string"}}},"links":{"GetUserByUserId":{"operationId":"getByUserId","parameters":{"userId":"$response.body#/id"}}}}`,

@@ -289,12 +289,12 @@ type Type string
 
 const (
 	TypeInteger Type = "integer"
-	TypeNumber       = "number"
-	TypeString       = "string"
-	TypeBoolean      = "boolean"
+	TypeNumber  Type = "number"
+	TypeString  Type = "string"
+	TypeBoolean Type = "boolean"
 
-	TypeArray  = "array"
-	TypeObject = "object"
+	TypeArray  Type = "array"
+	TypeObject Type = "object"
 )
 
 type SchemaOrBool struct {

@@ -93,7 +93,7 @@ func ExampleOpenAPI() {
 	fmt.Println(string(data))
 	/* Output:
 	{
-		"openapi": "3.0.1",
+		"openapi": "3.0.3",
 		"info": {
 			"title": "Swagger Petstore",
 			"license": {

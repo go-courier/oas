@@ -2,7 +2,7 @@ package oas
 
 func NewOpenAPI() *OpenAPI {
 	openAPI := &OpenAPI{}
-	openAPI.OpenAPI = "3.0.1"
+	openAPI.OpenAPI = "3.0.3"
 	openAPI.Paths.Paths = map[string]*PathItem{}
 	return openAPI
 }

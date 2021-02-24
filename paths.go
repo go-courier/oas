@@ -45,13 +45,13 @@ type HttpMethod string
 
 const (
 	GET     HttpMethod = "get"
-	PUT                = "put"
-	POST               = "post"
-	DELETE             = "delete"
-	OPTIONS            = "options"
-	HEAD               = "head"
-	PATCH              = "patch"
-	TRACE              = "trace"
+	PUT     HttpMethod = "put"
+	POST    HttpMethod = "post"
+	DELETE  HttpMethod = "delete"
+	OPTIONS HttpMethod = "options"
+	HEAD    HttpMethod = "head"
+	PATCH   HttpMethod = "patch"
+	TRACE   HttpMethod = "trace"
 )
 
 type Operations struct {

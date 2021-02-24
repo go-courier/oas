@@ -98,9 +98,9 @@ type SecurityType string
 
 const (
 	SecurityTypeAPIKey        SecurityType = "apiKey"
-	SecurityTypeHttp                       = "http"
-	SecurityTypeOAuth2                     = "oauth2"
-	SecurityTypeOpenIdConnect              = "openIdConnect"
+	SecurityTypeHttp          SecurityType = "http"
+	SecurityTypeOAuth2        SecurityType = "oauth2"
+	SecurityTypeOpenIdConnect SecurityType = "openIdConnect"
 )
 
 type OAuthFlows struct {
